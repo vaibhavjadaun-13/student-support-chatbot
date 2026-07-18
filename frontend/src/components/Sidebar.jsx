@@ -51,7 +51,11 @@ function Sidebar() {
             👤 Profile
           </Link>
         </li>
-
+<li className="nav-item">
+    <Link className="nav-link text-white" to="/chat-history">
+        💬 Chat History
+    </Link>
+</li>
         <li className="nav-item mt-4">
           <Link className="nav-link text-danger" to="/">
             🚪 Logout

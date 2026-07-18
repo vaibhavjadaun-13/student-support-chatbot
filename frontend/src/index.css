@@ -109,3 +109,22 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+:root{
+
+    --primary:#4F46E5;
+    --secondary:#7C3AED;
+    --success:#22C55E;
+    --danger:#EF4444;
+    --warning:#F59E0B;
+
+    --background:#F5F7FB;
+
+    --card:#FFFFFF;
+
+    --text:#1F2937;
+
+    --shadow:0 15px 35px rgba(0,0,0,.08);
+
+    --radius:18px;
+
+}

@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
@@ -9,7 +10,7 @@ import Attendance from "./pages/Attendance";
 import Notes from "./pages/Notes";
 import Notice from "./pages/Notice";
 import Timetable from "./pages/Timetable";
-
+import ChatHistory from "./pages/ChatHistory";
 function App() {
   return (
     <BrowserRouter>
@@ -33,7 +34,8 @@ function App() {
         <Route path="/notice" element={<Notice />} />
 
         <Route path="/timetable" element={<Timetable />} />
-
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat-history" element={<ChatHistory />} />
       </Routes>
 
     </BrowserRouter>

@@ -13,18 +13,33 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    // Register Student
-    public Student registerStudent(Student student) {
-        return studentRepository.save(student);
+    public Student getProfile(String email) {
+
+        Optional<Student> student = studentRepository.findByEmail(email);
+
+        return student.orElse(null);
+
     }
 
-    // Find Student by Email
-    public Optional<Student> getStudentByEmail(String email) {
-        return studentRepository.findByEmail(email);
+    public Student updateProfile(Student updatedStudent) {
+
+        Optional<Student> student =
+                studentRepository.findByEmail(updatedStudent.getEmail());
+
+        if(student.isPresent()){
+
+            Student existing = student.get();
+
+            existing.setFullName(updatedStudent.getFullName());
+            existing.setCourse(updatedStudent.getCourse());
+            existing.setSemester(updatedStudent.getSemester());
+
+            return studentRepository.save(existing);
+
+        }
+
+        return null;
+
     }
 
-    // Get Student by ID
-    public Optional<Student> getStudentById(Long id) {
-        return studentRepository.findById(id);
-    }
 }

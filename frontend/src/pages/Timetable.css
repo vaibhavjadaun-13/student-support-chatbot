@@ -1,0 +1,297 @@
+.timetable-container{
+
+    flex:1;
+
+    margin-left:250px;
+
+    padding:30px;
+
+}
+
+.title{
+
+    text-align:center;
+
+    color:#2563eb;
+
+    margin-bottom:30px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:white;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    box-shadow:0 0 15px rgba(0,0,0,.15);
+
+}
+
+th{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:15px;
+
+}
+
+td{
+
+    padding:15px;
+
+    text-align:center;
+
+    border-bottom:1px solid #ddd;
+
+}
+
+tr:hover{
+
+    background:#f3f4f6;
+
+}
+.form-card{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:15px;
+
+margin-bottom:30px;
+
+}
+
+.form-card input{
+
+padding:12px;
+
+border-radius:8px;
+
+border:1px solid #ccc;
+
+font-size:15px;
+
+}
+
+.form-card button{
+
+padding:12px;
+
+background:#2563eb;
+
+color:white;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+}
+
+.form-card button:hover{
+
+background:#1d4ed8;
+
+}
+
+.delete-btn{
+
+background:#ef4444;
+
+color:white;
+
+padding:8px 14px;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+}
+
+.delete-btn:hover{
+
+background:#dc2626;
+
+}
+.search-box{
+
+margin-bottom:25px;
+
+}
+
+.search-box select{
+
+padding:12px;
+
+border-radius:8px;
+
+font-size:15px;
+
+width:220px;
+
+}
+
+.edit-btn{
+
+background:#16a34a;
+
+color:white;
+
+padding:8px 15px;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+margin-right:8px;
+
+}
+
+.edit-btn:hover{
+
+background:#15803d;
+
+}
+
+select{
+
+padding:12px;
+
+border-radius:8px;
+
+border:1px solid #ccc;
+
+font-size:15px;
+
+}
+.summary-container{
+
+display:flex;
+
+gap:20px;
+
+margin-bottom:30px;
+
+}
+
+.summary-card{
+
+flex:1;
+
+background:white;
+
+padding:20px;
+
+border-radius:15px;
+
+box-shadow:0 0 12px rgba(0,0,0,.12);
+
+text-align:center;
+
+}
+
+.summary-card h3{
+
+color:#2563eb;
+
+margin-bottom:10px;
+
+}
+
+.summary-card p{
+
+font-size:28px;
+
+font-weight:bold;
+
+}
+
+.subject-badge{
+
+background:#2563eb;
+
+color:white;
+
+padding:8px 15px;
+
+border-radius:20px;
+
+font-size:14px;
+
+}
+
+.day-badge{
+
+background:#fbbf24;
+
+padding:8px 14px;
+
+border-radius:20px;
+
+font-weight:bold;
+
+}
+
+.room-badge{
+
+background:#16a34a;
+
+color:white;
+
+padding:8px 14px;
+
+border-radius:20px;
+
+}
+
+.faculty-card{
+
+font-weight:bold;
+
+color:#444;
+
+}
+
+table{
+
+overflow:hidden;
+
+border-radius:15px;
+
+}
+
+tbody tr{
+
+transition:.3s;
+
+}
+
+tbody tr:hover{
+
+transform:scale(1.01);
+
+background:#eef4ff;
+
+}
+.update-btn{
+
+background:#16a34a;
+
+color:white;
+
+}
