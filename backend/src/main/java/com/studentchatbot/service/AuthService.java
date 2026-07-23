@@ -44,4 +44,9 @@ public class AuthService {
 
         return new LoginResponse(false, "Invalid Email or Password");
     }
+
+    // Fix for Render build error: register method added
+    public Student register(Student student) {
+        return studentRepository.save(student);
+    }
 }
