@@ -2,7 +2,8 @@ import "./Attendance.css";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import API from "../services/api";
 function Attendance() {
   const [attendanceList, setAttendanceList] = useState([]);
 
@@ -37,9 +38,9 @@ const loadAttendance = async () => {
 
     try {
 
-        const response = await axios.get(
-            "http://localhost:8080/api/attendance"
-        );
+        const response = await API.get(
+    "/api/attendance"
+);
 
         setAttendanceList(response.data);
 
@@ -74,10 +75,10 @@ const addAttendance = async () => {
     return;
 
 }
-        await axios.post(
-            "http://localhost:8080/api/attendance",
-            form
-        );
+        await API.post(
+    "/api/attendance",
+    form
+);
 
         alert("Attendance Added");
 
@@ -107,9 +108,9 @@ const deleteAttendance = async (id) => {
 
     try {
 
-        await axios.delete(
-            "http://localhost:8080/api/attendance/" + id
-        );
+        await API.delete(
+    "/api/attendance/" + id
+);
 
         loadAttendance();
 
@@ -140,14 +141,10 @@ const editAttendance = (attendance) => {
 const updateAttendance = async () => {
 
     try {
-
-        await axios.put(
-
-            "http://localhost:8080/api/attendance/" + editingId,
-
-            form
-
-        );
+await API.put(
+    "/api/attendance/" + editingId,
+    form
+);
 
         alert("Attendance Updated");
 

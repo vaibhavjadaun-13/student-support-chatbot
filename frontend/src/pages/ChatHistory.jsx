@@ -2,7 +2,7 @@ import "./ChatHistory.css";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../services/api";
 
 function ChatHistory() {
 
@@ -22,15 +22,15 @@ function ChatHistory() {
 
         try {
 
-            const response = await axios.get(
-                "http://localhost:8080/api/chat-history"
+            const response = await API.get(
+                "/api/chat-history"
             );
 
             setChatList(response.data);
 
-        }
+        } catch (error) {
 
-        catch {
+            console.error(error.response?.data || error.message);
 
             alert("Unable to load chat history.");
 
@@ -45,15 +45,15 @@ function ChatHistory() {
 
         try {
 
-            await axios.delete(
-                "http://localhost:8080/api/chat-history/" + id
+            await API.delete(
+                "/api/chat-history/" + id
             );
 
             loadChats();
 
-        }
+        } catch (error) {
 
-        catch {
+            console.error(error.response?.data || error.message);
 
             alert("Delete Failed");
 
@@ -94,136 +94,134 @@ function ChatHistory() {
                     <div className="search-box">
 
                         <input
-
                             type="text"
-
                             placeholder="Search Chat..."
-
                             value={search}
-
-                            onChange={(e)=>setSearch(e.target.value)}
-
+                            onChange={(e) => setSearch(e.target.value)}
                         />
 
                     </div>
 
                     <div className="history-grid">
-                    {
 
-[...chatList]
+                        {
 
-.filter(chat=>{
+                            [...chatList]
 
-    if(search==="") return true;
+                                .filter(chat => {
 
-    return chat.userMessage
-        .toLowerCase()
-        .includes(search.toLowerCase());
+                                    if (search === "")
+                                        return true;
 
-})
+                                    return chat.userMessage
+                                        .toLowerCase()
+                                        .includes(search.toLowerCase());
 
-.map((chat)=>(
+                                })
 
-<div
-key={chat.id}
-className="history-card"
->
+                                .map((chat) => (
 
-<div className="history-date">
+                                    <div
+                                        key={chat.id}
+                                        className="history-card"
+                                    >
 
-📅 {
+                                        <div className="history-date">
 
-chat.createdAt
+                                            📅 {
 
-?
+                                                chat.createdAt
 
-new Date(chat.createdAt).toLocaleString()
+                                                    ?
 
-:
+                                                    new Date(chat.createdAt).toLocaleString()
 
-""
+                                                    :
 
-}
+                                                    ""
 
-</div>
+                                            }
 
-<div className="history-user">
+                                        </div>
 
-<h4>
+                                        <div className="history-user">
 
-👤 User
+                                            <h4>
 
-</h4>
+                                                👤 User
 
-<p>
+                                            </h4>
 
-{chat.userMessage}
+                                            <p>
 
-</p>
+                                                {chat.userMessage}
 
-</div>
+                                            </p>
 
-<div className="history-ai">
+                                        </div>
 
-<h4>
+                                        <div className="history-ai">
 
-🤖 AI
+                                            <h4>
 
-</h4>
+                                                🤖 AI
 
-<p>
+                                            </h4>
 
-{chat.botResponse}
+                                            <p>
 
-</p>
+                                                {chat.botResponse}
 
-</div>
+                                            </p>
 
-<div className="history-actions">
+                                        </div>
 
-<button
+                                        <div className="history-actions">
 
-className="delete-btn"
+                                            <button
 
-onClick={()=>deleteChat(chat.id)}
+                                                className="delete-btn"
 
->
+                                                onClick={() => deleteChat(chat.id)}
 
-🗑 Delete
+                                            >
 
-</button>
+                                                🗑 Delete
 
-</div>
+                                            </button>
 
-</div>
+                                        </div>
 
-))
+                                    </div>
 
-}
+                                ))
 
-{
+                        }
 
-[...chatList]
+                        {
 
-.filter(chat=>{
+                            [...chatList]
 
-    if(search==="") return true;
+                                .filter(chat => {
 
-    return chat.userMessage
-        .toLowerCase()
-        .includes(search.toLowerCase());
+                                    if (search === "")
+                                        return true;
 
-})
+                                    return chat.userMessage
+                                        .toLowerCase()
+                                        .includes(search.toLowerCase());
 
-.length===0 &&
+                                })
 
-<div className="no-data">
+                                .length === 0 &&
 
-💬 No Chat History Found
+                            <div className="no-data">
 
-</div>
+                                💬 No Chat History Found
 
-}
+                            </div>
+
+                        }
 
                     </div>
 

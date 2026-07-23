@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../services/api";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "./Profile.css";
@@ -17,16 +17,31 @@ function Profile() {
 
     useEffect(() => {
 
-        const email = localStorage.getItem("studentEmail");
-
-        axios.get(`http://localhost:8080/api/students/profile/${email}`)
-            .then((response) => {
-
-                setStudent(response.data);
-
-            });
+        loadProfile();
 
     }, []);
+
+    const loadProfile = async () => {
+
+        try {
+
+            const email = localStorage.getItem("studentEmail");
+
+            const response = await API.get(
+                `/api/students/profile/${email}`
+            );
+
+            setStudent(response.data);
+
+        } catch (error) {
+
+            console.error(error.response?.data || error.message);
+
+            alert("Unable to Load Profile");
+
+        }
+
+    };
 
     const handleChange = (e) => {
 
@@ -44,8 +59,8 @@ function Profile() {
 
         try {
 
-            await axios.put(
-                "http://localhost:8080/api/students/profile",
+            await API.put(
+                "/api/students/profile",
                 student
             );
 
@@ -53,7 +68,11 @@ function Profile() {
 
             setEditing(false);
 
-        } catch {
+            loadProfile();
+
+        } catch (error) {
+
+            console.error(error.response?.data || error.message);
 
             alert("Unable to Update Profile");
 
@@ -67,7 +86,7 @@ function Profile() {
 
             <Navbar />
 
-            <div style={{display:"flex"}}>
+            <div style={{ display: "flex" }}>
 
                 <Sidebar />
 

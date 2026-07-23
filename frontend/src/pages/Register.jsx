@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
-
+// import axios from "axios";
+import API from "../services/api";
 function Register() {
 
     const [student, setStudent] = useState({
@@ -23,10 +23,7 @@ function Register() {
 
         try {
 
-            const response = await axios.post(
-                "http://localhost:8080/api/students/register",
-                student
-            );
+            const response = await API.post("/api/students/register", student);
 
             alert("Registration Successful");
 

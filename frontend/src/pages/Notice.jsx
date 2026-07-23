@@ -2,247 +2,250 @@ import "./Notice.css";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../services/api";
+
 function Notice() {
-  const [noticeList, setNoticeList] = useState([]);
 
-const [editingId, setEditingId] = useState(null);
+    const [noticeList, setNoticeList] = useState([]);
 
-const [search, setSearch] = useState("");
-const [expandedNotice, setExpandedNotice] = useState(null);
+    const [editingId, setEditingId] = useState(null);
 
-const [form, setForm] = useState({
-    title: "",
-    description: "",
-    noticeDate: "",
-    important: false
-});
-useEffect(() => {
-    loadNotice();
-}, []);
-const loadNotice = async () => {
+    const [search, setSearch] = useState("");
 
-    try {
+    const [expandedNotice, setExpandedNotice] = useState(null);
 
-        const response = await axios.get(
-            "http://localhost:8080/api/notice"
-        );
-
-        setNoticeList(response.data);
-
-    }
-
-    catch {
-
-        alert("Unable to load notices.");
-
-    }
-
-};
-const addNotice = async () => {
-
-    if (
-        !form.title ||
-        !form.description ||
-        !form.noticeDate
-    ) {
-
-        alert("Fill all fields");
-
-        return;
-
-    }
-
-    try {
-
-        await axios.post(
-            "http://localhost:8080/api/notice",
-            form
-        );
-
-        alert("Notice Added");
-
-        setForm({
-            title: "",
-            description: "",
-            noticeDate: "",
-            important: false
-        });
-
-        loadNotice();
-
-    }
-
-    catch {
-
-        alert("Unable to Add Notice");
-
-    }
-
-};
-const deleteNotice = async (id) => {
-
-    if (!window.confirm("Delete this notice?"))
-        return;
-
-    try {
-
-        await axios.delete(
-            "http://localhost:8080/api/notice/" + id
-        );
-
-        loadNotice();
-
-    }
-
-    catch {
-
-        alert("Delete Failed");
-
-    }
-
-};
-const editNotice = (notice) => {
-
-    setEditingId(notice.id);
-
-    setForm({
-
-        title: notice.title,
-
-        description: notice.description,
-
-        noticeDate: notice.noticeDate,
-
-        important: notice.important
-
+    const [form, setForm] = useState({
+        title: "",
+        description: "",
+        noticeDate: "",
+        important: false
     });
 
-};
-const updateNotice = async () => {
+    useEffect(() => {
+        loadNotice();
+    }, []);
 
-    try {
+    const loadNotice = async () => {
 
-        await axios.put(
+        try {
 
-            "http://localhost:8080/api/notice/" + editingId,
+            const response = await API.get("/api/notice");
 
-            form
+            setNoticeList(response.data);
 
-        );
+        } catch (error) {
 
-        alert("Notice Updated");
+            console.error(error.response?.data || error.message);
+
+            alert("Unable to load notices.");
+
+        }
+
+    };
+
+    const addNotice = async () => {
+
+        if (
+            !form.title ||
+            !form.description ||
+            !form.noticeDate
+        ) {
+
+            alert("Fill all fields");
+
+            return;
+
+        }
+
+        try {
+
+            await API.post("/api/notice", form);
+
+            alert("Notice Added");
+
+            setForm({
+                title: "",
+                description: "",
+                noticeDate: "",
+                important: false
+            });
+
+            loadNotice();
+
+        } catch (error) {
+
+            console.error(error.response?.data || error.message);
+
+            alert("Unable to Add Notice");
+
+        }
+
+    };
+
+    const deleteNotice = async (id) => {
+
+        if (!window.confirm("Delete this notice?"))
+            return;
+
+        try {
+
+            await API.delete("/api/notice/" + id);
+
+            loadNotice();
+
+        } catch (error) {
+
+            console.error(error.response?.data || error.message);
+
+            alert("Delete Failed");
+
+        }
+
+    };
+
+    const editNotice = (notice) => {
+
+        setEditingId(notice.id);
+
         setForm({
 
-            title: "",
+            title: notice.title,
 
-            description: "",
+            description: notice.description,
 
-            noticeDate: "",
+            noticeDate: notice.noticeDate,
 
-            important: false
+            important: notice.important
 
         });
-        setEditingId(null);
-        setExpandedNotice(null);
-        loadNotice();
 
+    };
+
+    const updateNotice = async () => {
+
+        try {
+
+            await API.put(
+                "/api/notice/" + editingId,
+                form
+            );
+
+            alert("Notice Updated");
+
+            setForm({
+                title: "",
+                description: "",
+                noticeDate: "",
+                important: false
+            });
+
+            setEditingId(null);
+
+            setExpandedNotice(null);
+
+            loadNotice();
+
+        } catch (error) {
+
+            console.error(error.response?.data || error.message);
+
+            alert("Update Failed");
+
+        }
+
+    };
+
+    return (
+
+        <>
+
+            <Navbar />
+
+            <div style={{ display: "flex" }}>
+
+                <Sidebar />
+
+                <div className="notice-container">
+
+                    <h2 className="notice-title">
+                        📢 Notice Board
+                    </h2>
+
+                    <div className="notice-form">
+                        <input
+    type="text"
+    placeholder="Notice Title"
+    value={form.title}
+    onChange={(e) =>
+        setForm({
+            ...form,
+            title: e.target.value
+        })
     }
+/>
 
-    catch {
-
-        alert("Update Failed");
-
+<input
+    type="date"
+    value={form.noticeDate}
+    onChange={(e) =>
+        setForm({
+            ...form,
+            noticeDate: e.target.value
+        })
     }
+/>
 
-};
-return (
-
-    <>
-
-        <Navbar />
-
-        <div style={{ display: "flex" }}>
-
-            <Sidebar />
-
-            <div className="notice-container">
-
-                <h2 className="notice-title">
-                    📢 Notice Board
-                </h2>
-
-              <div className="notice-form">
+<label>
 
     <input
-        type="text"
-        placeholder="Notice Title"
-        value={form.title}
-        onChange={(e)=>setForm({...form,title:e.target.value})}
+        type="checkbox"
+        checked={form.important}
+        onChange={(e) =>
+            setForm({
+                ...form,
+                important: e.target.checked
+            })
+        }
     />
 
-    <input
-        type="date"
-        value={form.noticeDate}
-        onChange={(e)=>setForm({...form,noticeDate:e.target.value})}
-    />
+    Important Notice
 
-    <label>
+</label>
 
-        <input
-            type="checkbox"
-            checked={form.important}
-            onChange={(e)=>setForm({...form,important:e.target.checked})}
-        />
-
-        Important Notice
-
-    </label>
-
-    <textarea
-
-        placeholder="Notice Description"
-
-        value={form.description}
-
-        onChange={(e)=>setForm({...form,description:e.target.value})}
-
-    ></textarea>
-
-    {
-
-        editingId ?
-
-        <button onClick={updateNotice}>
-
-            Update Notice
-
-        </button>
-
-        :
-
-        <button onClick={addNotice}>
-
-            Add Notice
-
-        </button>
-
+<textarea
+    placeholder="Notice Description"
+    value={form.description}
+    onChange={(e) =>
+        setForm({
+            ...form,
+            description: e.target.value
+        })
     }
+></textarea>
+
+{
+    editingId ?
+
+    <button onClick={updateNotice}>
+        Update Notice
+    </button>
+
+    :
+
+    <button onClick={addNotice}>
+        Add Notice
+    </button>
+}
 
 </div>
 
 <div className="search-box">
 
     <input
-
         type="text"
-
         placeholder="Search Notice..."
-
         value={search}
-
-        onChange={(e)=>setSearch(e.target.value)}
-
+        onChange={(e) => setSearch(e.target.value)}
     />
 
 </div>
@@ -251,21 +254,27 @@ return (
 
 {
 
-[...noticeList]
+    [...noticeList]
 
-.sort((a, b) => new Date(b.noticeDate) - new Date(a.noticeDate))
+        .sort(
+            (a, b) =>
+                new Date(b.noticeDate) -
+                new Date(a.noticeDate)
+        )
 
-.filter(item => {
+        .filter((item) => {
 
-    if (search === "") return true;
+            if (search === "")
+                return true;
 
-    return item.title.toLowerCase().includes(search.toLowerCase());
+            return item.title
+                .toLowerCase()
+                .includes(search.toLowerCase());
 
-})
+        })
 
-.map((item) => (
-
-<div
+        .map((item) => (
+            <div
     key={item.id}
     className="notice-card"
 >
@@ -275,55 +284,45 @@ return (
         <h3>{item.title}</h3>
 
         {
-
             item.important ?
 
             <span className="badge badge-important">
-
                 📌 Important
-
             </span>
 
             :
 
             <span className="badge badge-normal">
-
                 Notice
-
             </span>
-
         }
 
     </div>
 
     <p className="notice-date">
-
         📅 {item.noticeDate}
-
     </p>
 
     <p className="notice-description">
 
         {
-
             expandedNotice === item.id
 
-            ?
+                ?
 
-            item.description
+                item.description
 
-            :
+                :
 
-            (item.description?.length || 0) > 120
+                (item.description?.length || 0) > 120
 
-            ?
+                    ?
 
-            item.description.substring(0,120) + "..."
+                    item.description.substring(0, 120) + "..."
 
-            :
+                    :
 
-            item.description
-
+                    item.description
         }
 
     </p>
@@ -336,38 +335,20 @@ return (
 
             className="read-btn"
 
-            onClick={()=>
-
+            onClick={() =>
                 setExpandedNotice(
-
-                    expandedNotice===item.id
-
-                    ?
-
-                    null
-
-                    :
-
-                    item.id
-
+                    expandedNotice === item.id
+                        ? null
+                        : item.id
                 )
-
             }
 
         >
 
             {
-
-                expandedNotice===item.id
-
-                ?
-
-                "Show Less"
-
-                :
-
-                "Read More"
-
+                expandedNotice === item.id
+                    ? "Show Less"
+                    : "Read More"
             }
 
         </button>
@@ -377,27 +358,17 @@ return (
     <div className="notice-actions">
 
         <button
-
             className="edit-btn"
-
-            onClick={()=>editNotice(item)}
-
+            onClick={() => editNotice(item)}
         >
-
             Edit
-
         </button>
 
         <button
-
             className="delete-btn"
-
-            onClick={()=>deleteNotice(item.id)}
-
+            onClick={() => deleteNotice(item.id)}
         >
-
             Delete
-
         </button>
 
     </div>
@@ -405,30 +376,35 @@ return (
 </div>
 
 ))
-
 }
-
 {
 
-[...noticeList]
+    [...noticeList]
 
-.sort((a,b)=>new Date(b.noticeDate)-new Date(a.noticeDate))
+        .sort(
+            (a, b) =>
+                new Date(b.noticeDate) -
+                new Date(a.noticeDate)
+        )
 
-.filter(item=>{
+        .filter((item) => {
 
-    if(search==="") return true;
+            if (search === "")
+                return true;
 
-    return item.title.toLowerCase().includes(search.toLowerCase());
+            return item.title
+                .toLowerCase()
+                .includes(search.toLowerCase());
 
-})
+        })
 
-.length===0 &&
+        .length === 0 &&
 
-<div className="no-data">
+    <div className="no-data">
 
-    📢 No Notices Available
+        📢 No Notices Available
 
-</div>
+    </div>
 
 }
 

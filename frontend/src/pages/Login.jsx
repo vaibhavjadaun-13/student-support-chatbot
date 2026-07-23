@@ -1,5 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import API from "../services/api";
 
 function Login() {
 
@@ -11,9 +12,8 @@ function Login() {
         try {
 
             console.log("Login button clicked");
-
-            const response = await axios.post(
-                "http://localhost:8080/api/auth/login",
+const response = await API.post(
+    "/api/auth/login",
                 {
                     email,
                     password
@@ -39,7 +39,8 @@ function Login() {
 
         } catch (error) {
 
-            console.log(error);
+            // console.log(error);
+            console.error(error.response?.data || error.message);
 
             alert("Login Failed");
 

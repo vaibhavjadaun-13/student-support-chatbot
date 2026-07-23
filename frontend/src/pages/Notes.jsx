@@ -2,7 +2,7 @@ import "./Notes.css";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { useState } from "react";
-import axios from "axios";
+import API from "../services/api";
 
 function Notes() {
 
@@ -24,8 +24,8 @@ function Notes() {
 
         try {
 
-            await axios.post(
-                "http://localhost:8080/api/notes/upload",
+            await API.post(
+                "/api/notes/upload",
                 formData,
                 {
                     headers: {
@@ -40,35 +40,33 @@ function Notes() {
 
             document.getElementById("pdfFile").value = "";
 
+        } catch (error) {
+
+            console.error(error.response?.data || error.message);
+
+            if (error.response) {
+
+                alert(error.response.data);
+
+            } else {
+
+                alert(error.message);
+
+            }
+
         }
-
-catch(error){
-
-    console.log(error);
-
-    if(error.response){
-
-        alert(error.response.data);
-
-    }else{
-
-        alert(error.message);
-
-    }
-
-}
 
     };
 
-    return(
+    return (
 
         <>
 
-            <Navbar/>
+            <Navbar />
 
-            <div style={{display:"flex"}}>
+            <div style={{ display: "flex" }}>
 
-                <Sidebar/>
+                <Sidebar />
 
                 <div className="notes-container">
 
@@ -77,21 +75,14 @@ catch(error){
                         <h2>📚 Upload Notes</h2>
 
                         <input
-
                             id="pdfFile"
-
                             type="file"
-
                             accept=".pdf"
-
-                            onChange={(e)=>setFile(e.target.files[0])}
-
+                            onChange={(e) => setFile(e.target.files[0])}
                         />
 
                         <button onClick={uploadFile}>
-
                             Upload PDF
-
                         </button>
 
                     </div>

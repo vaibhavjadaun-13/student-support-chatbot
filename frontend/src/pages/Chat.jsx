@@ -1,8 +1,10 @@
-import "./Chat.css";
+// import "./Chat.css";
+import "./chat.css";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { useState, useRef, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
+import API from "../services/api";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 function Chat() {
@@ -56,16 +58,16 @@ function Chat() {
 
         try {
 
-           const response = await axios.post(
-    "http://localhost:8080/api/chat",
+           const response = await API.post(
+    "/api/chat",
     {
         message: currentMessage
     }
 );
 const aiResponse = response.data.response;
 // Save chat history in MySQL
-await axios.post(
-    "http://localhost:8080/api/chat-history",
+await API.post(
+    "/api/chat-history",
     {
         userMessage: currentMessage,
         botResponse: aiResponse
@@ -86,7 +88,7 @@ setTimeout(() => {
 }, 1200);
 
         }catch (error) {
-
+            console.error(error.response?.data || error.message);
     let errorMessage = "Unable to connect to AI Server.";
 
     if (error.response) {
