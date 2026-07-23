@@ -125,3 +125,32 @@
     background:#15803d;
 
 }
+/* Existing Desktop Styles */
+.profile-container {
+    margin-left: 250px;
+    padding: 30px;
+    width: 100%;
+}
+
+.profile-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 500px;
+}
+
+/* ... existing avatar and text styles ... */
+
+/* 📱 ADDED: Mobile & Tablet Responsiveness */
+@media (max-width: 768px) {
+    .profile-container {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .profile-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

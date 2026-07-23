@@ -73,3 +73,32 @@
     background:#1d4ed8;
 
 }
+/* Existing Desktop Styles */
+.notes-container {
+    margin-left: 250px;
+    padding: 30px;
+    width: 100%;
+}
+
+.upload-card {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 550px;
+}
+
+/* ... existing button and input styles ... */
+
+/* 📱 ADDED: Mobile & Tablet Responsiveness */
+@media (max-width: 768px) {
+    .notes-container {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .upload-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
