@@ -15,17 +15,12 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // 1. Allow credentials (cookies/auth headers)
         config.setAllowCredentials(true);
-
-        // 2. Exact domains allowed (Localhost + Your Vercel domain)
         config.setAllowedOriginPatterns(List.of(
             "http://localhost:5173",
             "https://*.vercel.app",
             "https://student-support-chatbot-hce5.vercel.app"
         ));
-
-        // 3. Allow all headers and HTTP methods (including OPTIONS preflight)
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
