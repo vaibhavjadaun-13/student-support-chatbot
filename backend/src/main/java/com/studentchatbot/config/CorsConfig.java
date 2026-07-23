@@ -1,58 +1,37 @@
-// package com.studentchatbot.config;
-
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import org.springframework.web.cors.CorsConfiguration;
-// import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-// import org.springframework.web.filter.CorsFilter;
-
-// @Configuration
-// public class CorsConfig {
-
-//     @Bean
-//     public CorsFilter corsFilter() {
-
-//         CorsConfiguration config = new CorsConfiguration();
-
-//         config.setAllowCredentials(true);
-
-//         config.addAllowedOrigin("http://localhost:5173");
-
-//         // Add your deployed frontend URL here when you deploy it
-//         // config.addAllowedOrigin("https://your-frontend-domain.vercel.app");
-
-//         config.addAllowedHeader("*");
-//         config.addAllowedMethod("*");
-
-//         UrlBasedCorsConfigurationSource source =
-//                 new UrlBasedCorsConfigurationSource();
-
-//         source.registerCorsConfiguration("/**", config);
-
-//         return new CorsFilter(source);
-//     }
-// }
 package com.studentchatbot.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.List;
 
 @Configuration
 public class CorsConfig {
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOriginPatterns("*")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
-            }
-        };
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        // 1. Allow credentials (cookies/auth headers)
+        config.setAllowCredentials(true);
+
+        // 2. Exact domains allowed (Localhost + Your Vercel domain)
+        config.setAllowedOriginPatterns(List.of(
+            "http://localhost:5173",
+            "https://*.vercel.app",
+            "https://student-support-chatbot-hce5.vercel.app"
+        ));
+
+        // 3. Allow all headers and HTTP methods (including OPTIONS preflight)
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsFilter(source);
     }
 }
